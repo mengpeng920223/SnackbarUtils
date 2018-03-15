@@ -1,6 +1,6 @@
-# SnackbarUtils
+# SnackbarUtils 
 
-#### 效果图
+#### 效果图  欢迎star 欢迎frok
 ![](snackbar.gif)
 
 ### 使用方式
@@ -44,3 +44,7 @@ SnackbarUtils
     .setDuration(Snackbar.LENGTH_INDEFINITE)  //设置显示时长
     .build();  //创建并show  必须调用
 ```
+
+#### 推荐 [ToastUtils](https://gitee.com/mengpeng920223/ToastUtils)
+是时候改变一下你的toast了，让你的toast变个样子吧。最简单炫酷的toast,一行代码实现多种提示，关键是简单，好看，你值得拥有。
+![](toast.gif)
