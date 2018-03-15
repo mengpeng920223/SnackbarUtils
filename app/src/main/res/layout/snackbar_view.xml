@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/snackbar_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/toastSuccessColor"
+    android:minHeight="50dp">
+
+    <ImageView
+        android:id="@+id/snackbar_icon"
+        android:layout_width="38dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp"
+        android:src="@mipmap/toast_success" />
+
+    <TextView
+        android:id="@+id/snackbar_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/snackbar_btn_container"
+        android:layout_toRightOf="@+id/snackbar_icon"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:text="@string/app_name"
+        android:textColor="@color/toastDefaultTextColor" />
+
+    <LinearLayout
+        android:id="@+id/snackbar_btn_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/snackbar_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/snackbar_btn1"
+            android:gravity="center"
+            android:minHeight="50dp"
+            android:padding="6dp"
+            android:text="button2"
+            android:textColor="@color/toastDefaultTextColor"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/snackbar_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:minHeight="50dp"
+            android:padding="6dp"
+            android:text="button1"
+            android:textColor="@color/toastDefaultTextColor"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
