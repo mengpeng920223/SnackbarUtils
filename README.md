@@ -3,8 +3,26 @@
 #### 效果图
 ![](snackbar.gif)
 
-
 ### 使用方式
+#### Step 1. Add the JitPack repository to your build file
+``` 
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+#### Step 2. Add the dependency
+
+```  
+dependencies {
+    implementation 'com.android.support:design:27.1.0'
+    compile 'com.github.mengpeng920223:SnackbarUtils:v1.0.0'
+}
+```
+
+#### 使用示例
 ```
 SnackbarUtils
     .create(MainActivity.this)           //  .create(Activity activity) 必须
