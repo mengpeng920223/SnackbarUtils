@@ -1,15 +1,13 @@
 package com.mengpeng.snackbar;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -146,6 +144,17 @@ public class MainActivity extends AppCompatActivity {
                         ToastUtils.onWarnShowToast(btn2);
                     }
                 })
+                .addCallBack(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        ToastUtils.onSuccessShowToast("消失");
+                    }
+
+                    @Override
+                    public void onShown(Snackbar transientBottomBar) {
+                        ToastUtils.onSuccessShowToast("显示");
+                    }
+                })
                 .setDuration(time)  //设置显示时长
                 .build();  //创建并show  必须调用
     }
@@ -182,6 +191,17 @@ public class MainActivity extends AppCompatActivity {
         SnackbarUtils
                 .create(MainActivity.this, inflate, 100) //  .create(Activity activity) 必须
                 .setDuration(time)  //设置显示时长
+                .addCallBack(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        ToastUtils.onSuccessShowToast("消失");
+                    }
+
+                    @Override
+                    public void onShown(Snackbar transientBottomBar) {
+                        ToastUtils.onSuccessShowToast("显示");
+                    }
+                })
                 .build();  //创建并show  必须调用
 
 

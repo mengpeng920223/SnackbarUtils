@@ -4,6 +4,7 @@
 -
 - v1.0.0 采用建造者模式实现Snackbar的使用，添加多彩的示例
 - v1.1.0 增加可以自定义显示的view,优化细节以及修复重复绘制，提升性能
+- v1.1.1 增加snackbar显示和消失的callback
 - v1.2.0 增加snackbar与各种控件的联动等【当snackbar弹出的时候，指定控件上移】
 - v..... 欢迎留言，欢迎制定版本规划，一起打造漂亮的snackbar
 
@@ -28,11 +29,11 @@ allprojects {
 dependencies {
     //依赖库
     implementation 'com.android.support:design:27.1.0'
-    compile 'com.github.mengpeng920223:SnackbarUtils:v1.1.0'
+    compile 'com.github.mengpeng920223:SnackbarUtils:v1.1.1'
 }
 ```
 
-#### 使用示例 V1.1.0
+#### 使用示例 V1.1.1
 - 新增使用自定义view
 ```  
 View inflate = LayoutInflater.from(this).inflate(R.layout.item_view, null);
@@ -40,6 +41,17 @@ SnackbarUtils
     //第一个参数：activity ， 第二个：自定义的view ， 第三个：view的高度，单位是dp
     .create(MainActivity.this, inflate, 100)
     .setDuration(time)  //设置显示时长
+    .addCallBack(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+        @Override
+        public void onDismissed(Snackbar transientBottomBar, int event) {
+            ToastUtils.onSuccessShowToast("消失");
+        }
+    
+        @Override
+        public void onShown(Snackbar transientBottomBar) {
+            ToastUtils.onSuccessShowToast("显示");
+        }
+    })
     .build();  //创建并show  必须调用
     
 ..... = inflate.findViewById(...);   
@@ -65,6 +77,17 @@ SnackbarUtils
         @Override
         public void onClick(View v) {
             Log.d("MainActivity", "按钮2");
+        }
+    })
+    .addCallBack(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+        @Override
+        public void onDismissed(Snackbar transientBottomBar, int event) {
+            ToastUtils.onSuccessShowToast("消失");
+        }
+    
+        @Override
+        public void onShown(Snackbar transientBottomBar) {
+            ToastUtils.onSuccessShowToast("显示");
         }
     })
     .setDuration(Snackbar.LENGTH_INDEFINITE)  //设置显示时长

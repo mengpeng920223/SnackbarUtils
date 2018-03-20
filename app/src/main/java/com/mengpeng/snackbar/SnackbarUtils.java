@@ -3,6 +3,7 @@ package com.mengpeng.snackbar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -193,6 +194,12 @@ public class SnackbarUtils {
     }
 
 
+    public SnackbarUtils addCallBack(BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
+        snackbar.addCallback(callback);
+        return snackbarUtils;
+    }
+
+
     public void build() {
         if (null == mContext) {
             throw new NullPointerException("执行build之前，请务必先调用create方法...");
@@ -246,4 +253,6 @@ public class SnackbarUtils {
             snackbar = null;
         }
     }
+
+
 }
