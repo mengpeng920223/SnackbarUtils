@@ -162,5 +162,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/main_dismiss_shape"
+        android:gravity="center"
+        android:onClick="onCustumViewClick"
+        android:text="自定义View填充"
+        android:textColor="#fff" />
+
 
 </LinearLayout>

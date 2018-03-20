@@ -2,9 +2,11 @@ package com.mengpeng.snackbar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,38 +34,50 @@ public class SnackbarUtils {
     private static TextView snackbar_btn2;
     private static Snackbar.SnackbarLayout viewSnackbar;
 
+    private static View mView;
+    private static int defaultHeight = 50;
+
 
     public static SnackbarUtils create(Context context) {
-        return create(context, null);
+        return create(context, null, 50);
     }
 
-    public static SnackbarUtils create(Context context, View view) {
+    public static SnackbarUtils create(Context context, View view, int viewHeight) {
         mContext = context;
+        mView = view;
+        defaultHeight = viewHeight;
+
         if (null != snackbar) {
             if (snackbar.isShownOrQueued()) {
                 snackbar.dismiss();
             }
             snackbar = null;
         }
-        if (snackbarUtils == null) {
-            snackbarUtils = new SnackbarUtils();
+        if (snackbarUtils != null) {
+            snackbarUtils = null;
         }
-        if (null == view) {
-            view = ((Activity) context).getWindow().getDecorView();
-        }
+        snackbarUtils = new SnackbarUtils();
 
-        inflate = LayoutInflater.from(mContext).inflate(R.layout.snackbar_view, null);
-        snackbar_container = inflate.findViewById(R.id.snackbar_container);
-        snackbar_icon = inflate.findViewById(R.id.snackbar_icon);
-        snackbar_content = inflate.findViewById(R.id.snackbar_content);
-        snackbar_btn1 = inflate.findViewById(R.id.snackbar_btn1);
-        snackbar_btn2 = inflate.findViewById(R.id.snackbar_btn2);
-
-        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_SHORT);
+        snackbar = Snackbar.make(((Activity) context).getWindow().getDecorView(), "", Snackbar.LENGTH_SHORT);
         viewSnackbar = (Snackbar.SnackbarLayout) snackbar.getView();
 
-        viewSnackbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.toastDefaultColor));
-        snackbar_container.setBackgroundColor(ContextCompat.getColor(mContext, R.color.toastDefaultColor));
+        int paddingLeft = viewSnackbar.getPaddingLeft();
+        int paddingRight = viewSnackbar.getPaddingRight();
+
+        viewSnackbar.setPadding(0, 0, 0, 0);
+
+        if (null == view) {
+            inflate = LayoutInflater.from(mContext).inflate(R.layout.snackbar_view, null);
+            snackbar_container = inflate.findViewById(R.id.snackbar_container);
+            snackbar_icon = inflate.findViewById(R.id.snackbar_icon);
+            snackbar_content = inflate.findViewById(R.id.snackbar_content);
+            snackbar_btn1 = inflate.findViewById(R.id.snackbar_btn1);
+            snackbar_btn2 = inflate.findViewById(R.id.snackbar_btn2);
+            snackbar_container.setBackgroundColor(ContextCompat.getColor(mContext, R.color.toastDefaultColor));
+
+            snackbar_container.setPadding(paddingLeft, 0, paddingRight, 0);
+        }
+
 
         return snackbarUtils;
     }
@@ -73,6 +87,9 @@ public class SnackbarUtils {
     }
 
     public SnackbarUtils setContent(String content, int contentColor) {
+        if (null == inflate) {
+            return snackbarUtils;
+        }
         //设置消息内容
         if (!TextUtils.isEmpty(content)) {
             snackbar_content.setText(content);
@@ -89,6 +106,9 @@ public class SnackbarUtils {
     }
 
     public SnackbarUtils setSnackbarBackgroundColor(int snackbarBackgroundColor) {
+        if (null == inflate) {
+            return snackbarUtils;
+        }
         //设置背景颜色
         snackbar_container.setBackgroundColor(ContextCompat.getColor(mContext, snackbarBackgroundColor));
         viewSnackbar.setBackgroundColor(ContextCompat.getColor(mContext, snackbarBackgroundColor));
@@ -96,6 +116,9 @@ public class SnackbarUtils {
     }
 
     public SnackbarUtils setIcon(int icon) {
+        if (null == inflate) {
+            return snackbarUtils;
+        }
         //设置icon
         if (-1 != icon) {
             snackbar_icon.setImageResource(icon);
@@ -116,6 +139,9 @@ public class SnackbarUtils {
     }
 
     public SnackbarUtils setActionBtn1(String btn1, int btn1Color, View.OnClickListener listener1) {
+        if (null == inflate) {
+            return snackbarUtils;
+        }
         if (null == snackbar_btn1) {
             throw new NullPointerException("执行setActionBtn1之前，请务必先调用create方法...");
         }
@@ -142,6 +168,9 @@ public class SnackbarUtils {
     }
 
     public SnackbarUtils setActionBtn2(String btn2, int btn2Color, View.OnClickListener listener2) {
+        if (null == inflate) {
+            return snackbarUtils;
+        }
         if (null == snackbar_btn2) {
             throw new NullPointerException("执行setActionBtn2之前，请务必先调用create方法...");
         }
@@ -175,9 +204,17 @@ public class SnackbarUtils {
 
         //设置新建布局参数
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, dp2px(mContext, 50));
+                LinearLayout.LayoutParams.MATCH_PARENT, dp2px(mContext, defaultHeight));
         params.gravity = Gravity.FILL;//设置新建布局在Snackbar内垂直居中显示
-        viewSnackbar.addView(inflate, 1, params);
+        if (null == mView) {
+            viewSnackbar.addView(inflate, 1, params);
+        } else {
+            int height = mView.getHeight();
+            Log.d("TAG", "height:" + height);
+            viewSnackbar.addView(mView, 1, params);
+            Drawable background = mView.getBackground();
+            viewSnackbar.setBackground(background);
+        }
         snackbar.show();
     }
 
@@ -206,6 +243,7 @@ public class SnackbarUtils {
     public static void dismiss() {
         if (null != snackbar && snackbar.isShown()) {
             snackbar.dismiss();
+            snackbar = null;
         }
     }
 }
